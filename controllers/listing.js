@@ -24,7 +24,7 @@ module.exports.addNewListings = wrapAsync(async (req, res, next) => {
 
     // console.log(response.body.features[0].geometry);
 
-    
+
     let url = req.file.path;
     let filename = req.file.filename;
     const list = new Listing(req.body.listing);
@@ -43,6 +43,7 @@ module.exports.showRoute = wrapAsync(async (req, res) => {
     const { id } = req.params;
     // const listing = await Listing.findById(id).populate("reviews").populate("owner");
     const listing = await Listing.findById(id).populate({ path: "reviews", populate: { path: "author" } }).populate("owner");
+    console.log(listing)
     if (!listing) {
         req.flash("error", "Listing doesn't exist !");
         res.redirect("/listings");
